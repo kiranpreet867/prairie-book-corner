@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
-  belongs_to :category
+   belongs_to :category
+  has_one_attached :image
 
   validates :name,
             presence: true,
@@ -21,4 +22,22 @@ class Product < ApplicationRecord
             }
 
   validates :on_sale, inclusion: { in: [ true, false ] }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[
+      category_id
+      created_at
+      description
+      id
+      name
+      on_sale
+      price
+      stock_quantity
+      updated_at
+    ]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[category]
+  end
 end
