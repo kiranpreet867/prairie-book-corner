@@ -4,34 +4,96 @@
 
 <hr>
 
-<% @products.each do |product| %>
+<h2>Browse by Category</h2>
 
-  <div style="margin-bottom:25px; border:1px solid #ccc; padding:15px;">
+<p>
+  <% Category.order(:name).each do |category| %>
+    <%= link_to category.name, category_path(category) %> |
+  <% end %>
+</p>
 
-    <% if product.image.attached? %>
-      <%= image_tag product.image, width: 120 %>
-    <% end %>
+<hr>
 
-    <h2>
-      <%= link_to product.name, product_path(product) %>
-    </h2>
+<h2>Search Products</h2>
 
-    <p>
-      <strong>Category:</strong>
-      <%= link_to product.category.name, category_path(product.category) %>
-    </p>
+<%= form_with url: root_path, method: :get, local: true do %>
+  <p>
+    <%= label_tag :search, "Keyword" %><br>
+    <%= text_field_tag :search,
+                       params[:search],
+                       placeholder: "Search name or description" %>
+  </p>
 
-    <p>
-      <strong>Price:</strong>
-      $<%= product.price %>
-    </p>
+  <p>
+    <%= label_tag :category_id, "Category" %><br>
+    <%= select_tag :category_id,
+                   options_from_collection_for_select(
+                     @categories,
+                     :id,
+                     :name,
+                     params[:category_id]
+                   ),
+                   include_blank: "All Categories" %>
+  </p>
 
-    <% if product.on_sale %>
-      <p style="color:red;">
-        <strong>On Sale!</strong>
+  <%= hidden_field_tag :filter, params[:filter] if params[:filter].present? %>
+
+  <p>
+    <%= submit_tag "Search" %>
+    <%= link_to "Clear Search", root_path %>
+  </p>
+<% end %>
+
+<hr>
+
+<h2>Filter Products</h2>
+
+<p>
+  <%= link_to "All Products", root_path %> |
+  <%= link_to "On Sale", root_path(filter: "sale") %> |
+  <%= link_to "New Products", root_path(filter: "new") %>
+</p>
+
+<hr>
+
+<% if params[:search].present? || params[:category_id].present? %>
+  <h2>Search Results</h2>
+<% elsif params[:filter] == "sale" %>
+  <h2>Products On Sale</h2>
+<% elsif params[:filter] == "new" %>
+  <h2>New Products</h2>
+<% else %>
+  <h2>All Products</h2>
+<% end %>
+
+<% if @products.any? %>
+  <% @products.each do |product| %>
+    <div style="margin-bottom: 25px; border: 1px solid #ccc; padding: 15px;">
+      <% if product.image.attached? %>
+        <%= image_tag product.image, width: 120 %>
+      <% end %>
+
+      <h2>
+        <%= link_to product.name, product_path(product) %>
+      </h2>
+
+      <p>
+        <strong>Category:</strong>
+        <%= product.category.name %>
       </p>
-    <% end %>
 
-  </div>
+      <p>
+        <strong>Price:</strong>
+        <%= number_to_currency(product.price) %>
+      </p>
 
+      <% if product.on_sale %>
+        <p style="color: red;">
+          <strong>On Sale!</strong>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>No products matched your search.</p>
 <% end %>
