@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+    resources :categories, only: [ :show ]
+  get "categories/show"
+  root "products#index"
+
+resources :products, only: [ :index, :show ]
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 

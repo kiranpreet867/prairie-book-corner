@@ -1,0 +1,37 @@
+<h1>Prairie Book Corner</h1>
+
+<p>Browse our collection of books.</p>
+
+<hr>
+
+<% @products.each do |product| %>
+
+  <div style="margin-bottom:25px; border:1px solid #ccc; padding:15px;">
+
+    <% if product.image.attached? %>
+      <%= image_tag product.image, width: 120 %>
+    <% end %>
+
+    <h2>
+      <%= link_to product.name, product_path(product) %>
+    </h2>
+
+    <p>
+      <strong>Category:</strong>
+      <%= link_to product.category.name, category_path(product.category) %>
+    </p>
+
+    <p>
+      <strong>Price:</strong>
+      $<%= product.price %>
+    </p>
+
+    <% if product.on_sale %>
+      <p style="color:red;">
+        <strong>On Sale!</strong>
+      </p>
+    <% end %>
+
+  </div>
+
+<% end %>
