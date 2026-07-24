@@ -5,7 +5,8 @@ ActiveAdmin.register Product do
                 :stock_quantity,
                 :on_sale,
                 :category_id,
-                :image
+                :image,
+                :remove_image
 
   includes :category
 
@@ -45,7 +46,21 @@ ActiveAdmin.register Product do
       f.input :stock_quantity
       f.input :on_sale
       f.input :category
-      f.input :image, as: :file
+
+      if f.object.image.attached?
+        li do
+          image_tag url_for(f.object.image),
+                    style: "max-width: 150px; height: auto;"
+        end
+
+        f.input :remove_image,
+                as: :boolean,
+                label: "Remove current image"
+      end
+
+      f.input :image,
+              as: :file,
+              hint: "Choose a file to add or replace the product image."
     end
 
     f.actions

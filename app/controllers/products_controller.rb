@@ -22,6 +22,9 @@ class ProductsController < ApplicationController
     when "new"
       @products = @products.where(created_at: 3.days.ago..Time.current)
     end
+
+    # Pagination MUST be inside the index method
+    @products = @products.page(params[:page]).per(10)
   end
 
   def show

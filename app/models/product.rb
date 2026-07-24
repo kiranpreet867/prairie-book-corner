@@ -1,6 +1,10 @@
 class Product < ApplicationRecord
-   belongs_to :category
+  belongs_to :category
   has_one_attached :image
+
+  attr_accessor :remove_image
+
+  before_save :remove_attached_image, if: :remove_image_requested?
 
   validates :name,
             presence: true,
@@ -39,5 +43,15 @@ class Product < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[category]
+  end
+
+  private
+
+  def remove_image_requested?
+    remove_image == "1"
+  end
+
+  def remove_attached_image
+    image.purge if image.attached?
   end
 end
