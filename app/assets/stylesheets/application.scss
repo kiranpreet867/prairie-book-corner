@@ -1,0 +1,29 @@
+$primary-color: #2c3e50;
+$spacing: 15px;
+
+.breadcrumb {
+  margin-bottom: $spacing;
+  font-size: 14px;
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  span {
+    font-weight: bold;
+  }
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: $spacing;
+
+  h2 {
+    color: $primary-color;
+  }
+}
