@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-    resources :categories, only: [ :show ]
-  get "categories/show"
   root "products#index"
 
-resources :products, only: [ :index, :show ]
+  resources :products, only: [ :index, :show ]
+  resources :categories, only: [ :show ]
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -16,4 +16,10 @@ resources :products, only: [ :index, :show ]
       to: "site_pages#show",
       defaults: { slug: "contact" },
       as: :contact
+
+  get "/cart", to: "cart#show"
+
+  post "/cart/add/:product_id", to: "cart#add", as: :add_to_cart
+  patch "/cart/update/:product_id", to: "cart#update", as: :update_cart
+  delete "/cart/remove/:product_id", to: "cart#remove", as: :remove_from_cart
 end

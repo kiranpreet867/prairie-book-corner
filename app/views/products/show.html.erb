@@ -1,8 +1,14 @@
 <h1><%= @product.name %></h1>
+<%= link_to "Shopping Cart", cart_path %>
 
 <% if @product.image.attached? %>
   <%= image_tag @product.image, width: 250 %>
 <% end %>
+
+<%= button_to "Add to Cart",
+              add_to_cart_path(@product),
+              method: :post,
+              class: "btn btn-primary" %>
 
 <p>
   <strong>Description:</strong><br>

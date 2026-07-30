@@ -1,0 +1,57 @@
+<h1>Shopping Cart</h1>
+
+<% if @products.empty? %>
+
+  <p>Your cart is empty.</p>
+
+<% else %>
+
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Action</th>
+    </tr>
+
+    <% total = 0 %>
+
+    <% @products.each do |product| %>
+
+      <% quantity = @cart[product.id.to_s] %>
+      <% subtotal = product.price * quantity %>
+      <% total += subtotal %>
+
+      <tr>
+        <td><%= product.name %></td>
+
+        <td><%= number_to_currency(product.price) %></td>
+
+        <td>
+          <%= form_with url: update_cart_path(product), method: :patch, local: true do |f| %>
+            <%= f.number_field :quantity, value: quantity, min: 1 %>
+            <%= f.submit "Update" %>
+          <% end %>
+        </td>
+
+        <td><%= number_to_currency(subtotal) %></td>
+
+        <td>
+          <%= button_to "Remove",
+                        remove_from_cart_path(product),
+                        method: :delete %>
+        </td>
+      </tr>
+
+    <% end %>
+
+  </table>
+
+  <h2>Total: <%= number_to_currency(total) %></h2>
+
+<% end %>
+
+<br>
+
+<%= link_to "Continue Shopping", root_path %>
