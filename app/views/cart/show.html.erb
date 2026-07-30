@@ -51,6 +51,11 @@
   <h2>Total: <%= number_to_currency(total) %></h2>
 
 <% end %>
+<br>
+
+<%= link_to "Proceed to Checkout",
+            checkout_path,
+            class: "btn btn-success" %>
 
 <br>
 

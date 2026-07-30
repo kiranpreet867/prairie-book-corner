@@ -1,0 +1,46 @@
+<h1>Checkout</h1>
+
+<% if session[:cart].blank? %>
+
+  <p>Your cart is empty.</p>
+
+<% else %>
+
+  <h3>Order Summary</h3>
+
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+
+    <% total = 0 %>
+
+    <% Product.where(id: session[:cart].keys).each do |product| %>
+
+      <% quantity = session[:cart][product.id.to_s] %>
+
+      <% subtotal = product.price * quantity %>
+
+      <% total += subtotal %>
+
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= quantity %></td>
+        <td><%= number_to_currency(subtotal) %></td>
+      </tr>
+
+    <% end %>
+
+  </table>
+
+  <h2>Total: <%= number_to_currency(total) %></h2>
+
+  <br>
+
+  <%= button_to "Place Order",
+                checkout_path,
+                method: :post %>
+
+<% end %>
