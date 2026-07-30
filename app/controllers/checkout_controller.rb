@@ -5,6 +5,7 @@ class CheckoutController < ApplicationController
   def create
     session[:cart] = {}
 
-    redirect_to root_path, notice: "Thank you! Your order has been placed."
+    flash[:notice] = "Thank you for your order!"
+  redirect_to root_path
   end
 end

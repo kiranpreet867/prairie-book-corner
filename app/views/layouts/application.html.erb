@@ -13,16 +13,20 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+
     <% flash.each do |type, message| %>
-<div class="alert alert-success" style="padding:10px; margin:10px; background:#d4edda; border:1px solid #c3e6cb;">
-<p><%= message %></p>
-</div>
-<% end %>
+      <div class="alert alert-success" style="padding:10px; margin:10px; background:#d4edda; border:1px solid #c3e6cb; color:#155724;">
+        <p><%= message %></p>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
   </body>
 </html>
