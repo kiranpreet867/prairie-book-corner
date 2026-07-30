@@ -1,13 +1,15 @@
 <h1><%= @category.name %></h1>
-<p>
+
+<p class="breadcrumb">
   <%= link_to "Home", root_path %>
-  >
-  <%= @category.name %>
+  &raquo;
+  <span><%= @category.name %></span>
 </p>
+
 <p><%= @category.description %></p>
 
 <p>
-  <%= link_to "Back to All Products", root_path %>
+  <%= link_to "← Back to All Products", root_path %>
 </p>
 
 <hr>
