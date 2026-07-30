@@ -1,6 +1,13 @@
 <h1><%= @product.name %></h1>
 
 <%= link_to "Shopping Cart", cart_path %>
+<p>
+  <%= link_to "Home", root_path %>
+  >
+  <%= link_to @product.category.name, category_path(@product.category) %>
+  >
+  <%= @product.name %>
+</p>
 
 <% if @product.image.attached? %>
   <%= image_tag @product.image.variant(resize_to_limit: [400, 400]) %>
