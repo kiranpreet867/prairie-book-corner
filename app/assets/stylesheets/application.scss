@@ -1,9 +1,38 @@
+// Variables
 $primary-color: #2c3e50;
-$spacing: 15px;
+$secondary-color: #f4f4f4;
+$success-background: #d4edda;
+$success-border: #c3e6cb;
+$success-text: #155724;
+$danger-color: #c62828;
+$border-color: #cccccc;
+$base-spacing: 10px;
+$base-font-size: 14px;
 
+// Operators
+$large-spacing: $base-spacing * 2;
+$card-padding: $base-spacing + 5px;
+
+// Reusable style used for inheritance
+%box-style {
+  border: 1px solid $border-color;
+  padding: $card-padding;
+  margin-bottom: $large-spacing;
+  border-radius: 4px;
+}
+
+// General page styling
+body {
+  font-family: Arial, sans-serif;
+  margin: $large-spacing;
+  color: $primary-color;
+  background-color: #ffffff;
+}
+
+// Nesting
 .breadcrumb {
-  margin-bottom: $spacing;
-  font-size: 14px;
+  margin-bottom: $card-padding;
+  font-size: $base-font-size;
 
   a {
     color: $primary-color;
@@ -19,11 +48,62 @@ $spacing: 15px;
   }
 }
 
+// Inheritance using @extend
 .product-card {
-  border: 1px solid #ccc;
-  padding: $spacing;
+  @extend %box-style;
 
   h2 {
-    color: $primary-color;
+    margin-top: 0;
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  img {
+    max-width: 120px;
+    height: auto;
+  }
+}
+
+.alert {
+  @extend %box-style;
+
+  p {
+    margin: 0;
+  }
+
+  &.alert-success {
+    background-color: $success-background;
+    border-color: $success-border;
+    color: $success-text;
+  }
+}
+
+.sale-message {
+  color: $danger-color;
+  font-weight: bold;
+}
+
+.btn {
+  display: inline-block;
+  padding: $base-spacing $large-spacing;
+  border: 1px solid $primary-color;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+
+  &.btn-primary {
+    background-color: $primary-color;
+    color: #ffffff;
+  }
+
+  &:hover {
+    opacity: 0.85;
   }
 }

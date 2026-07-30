@@ -15,7 +15,7 @@
 <hr>
 
 <% @products.each do |product| %>
-  <div style="margin-bottom: 25px; border: 1px solid #ccc; padding: 15px;">
+  <div class="product-card">
     <% if product.image.attached? %>
       <%= image_tag product.image, width: 120 %>
     <% end %>
@@ -30,7 +30,7 @@
     </p>
 
     <% if product.on_sale %>
-      <p style="color: red;">
+      <<p class="sale-message">
         <strong>On Sale!</strong>
       </p>
     <% end %>
