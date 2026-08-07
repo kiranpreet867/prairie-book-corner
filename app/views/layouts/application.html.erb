@@ -19,6 +19,29 @@
   </head>
 
   <body>
+    <nav>
+  <%= link_to "Store", root_path %>
+  |
+  <%= link_to "Shopping Cart", cart_path %>
+  |
+
+  <% if customer_signed_in? %>
+    Signed in as <strong><%= current_customer.username %></strong>
+    |
+    <%= button_to "Log Out",
+                  destroy_customer_session_path,
+                  method: :delete,
+                  form: { style: "display:inline-block;" } %>
+  <% else %>
+    <%= link_to "Customer Sign Up",
+                new_customer_registration_path %>
+    |
+    <%= link_to "Customer Login",
+                new_customer_session_path %>
+  <% end %>
+</nav>
+
+<hr>
 
     <% flash.each do |type, message| %>
       <div class="alert alert-success">
