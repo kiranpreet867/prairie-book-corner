@@ -1,46 +1,99 @@
-<h1>Checkout</h1>
+<h1>Checkout Invoice</h1>
 
-<% if session[:cart].blank? %>
+<h2>Customer Information</h2>
 
-  <p>Your cart is empty.</p>
+<p>
+  <strong>Username:</strong>
+  <%= current_customer.username %>
+</p>
 
-<% else %>
+<p>
+  <strong>Address:</strong>
+  <%= current_customer.address %>
+</p>
 
-  <h3>Order Summary</h3>
+<p>
+  <strong>City:</strong>
+  <%= current_customer.city %>
+</p>
 
-  <table border="1" cellpadding="10">
+<p>
+  <strong>Province:</strong>
+  <%= current_customer.province.name %>
+</p>
+
+<p>
+  <strong>Postal Code:</strong>
+  <%= current_customer.postal_code %>
+</p>
+
+<hr>
+
+<h2>Order Invoice</h2>
+
+<table border="1" cellpadding="10">
+  <thead>
     <tr>
       <th>Product</th>
-      <th>Quantity</th>
       <th>Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
     </tr>
+  </thead>
 
-    <% total = 0 %>
-
-    <% Product.where(id: session[:cart].keys).each do |product| %>
-
-      <% quantity = session[:cart][product.id.to_s] %>
-
-      <% subtotal = product.price * quantity %>
-
-      <% total += subtotal %>
+  <tbody>
+    <% @products.each do |product| %>
+      <% quantity = @cart[product.id.to_s].to_i %>
 
       <tr>
         <td><%= product.name %></td>
+
+        <td>
+          <%= number_to_currency(product.price) %>
+        </td>
+
         <td><%= quantity %></td>
-        <td><%= number_to_currency(subtotal) %></td>
+
+        <td>
+          <%= number_to_currency(product.price * quantity) %>
+        </td>
       </tr>
-
     <% end %>
+  </tbody>
+</table>
 
-  </table>
+<h3>Subtotal: <%= number_to_currency(@subtotal) %></h3>
 
-  <h2>Total: <%= number_to_currency(total) %></h2>
-
-  <br>
-
-  <%= button_to "Place Order",
-                checkout_path,
-                method: :post %>
-
+<% if @gst.positive? %>
+  <p>
+    GST:
+    <%= number_to_currency(@gst) %>
+  </p>
 <% end %>
+
+<% if @pst.positive? %>
+  <p>
+    PST:
+    <%= number_to_currency(@pst) %>
+  </p>
+<% end %>
+
+<% if @hst.positive? %>
+  <p>
+    HST:
+    <%= number_to_currency(@hst) %>
+  </p>
+<% end %>
+
+<h2>
+  Grand Total:
+  <%= number_to_currency(@total) %>
+</h2>
+
+<%= button_to "Place Order",
+              checkout_path,
+              method: :post %>
+
+<p>
+  <%= link_to "Back to Cart", cart_path %>
+</p>
