@@ -45,6 +45,42 @@ Product.where("name LIKE ?", "Prairie Book %").destroy_all
   )
 end
 
+# Canadian provinces and territories with tax rates
+
+provinces = [
+  { name: "Alberta", code: "AB", gst: 5.0, pst: 0.0, hst: 0.0 },
+  { name: "British Columbia", code: "BC", gst: 5.0, pst: 7.0, hst: 0.0 },
+  { name: "Manitoba", code: "MB", gst: 5.0, pst: 7.0, hst: 0.0 },
+  { name: "New Brunswick", code: "NB", gst: 0.0, pst: 0.0, hst: 15.0 },
+  { name: "Newfoundland and Labrador", code: "NL", gst: 0.0, pst: 0.0, hst: 15.0 },
+  { name: "Northwest Territories", code: "NT", gst: 5.0, pst: 0.0, hst: 0.0 },
+  { name: "Nova Scotia", code: "NS", gst: 0.0, pst: 0.0, hst: 14.0 },
+  { name: "Nunavut", code: "NU", gst: 5.0, pst: 0.0, hst: 0.0 },
+  { name: "Ontario", code: "ON", gst: 0.0, pst: 0.0, hst: 13.0 },
+  { name: "Prince Edward Island", code: "PE", gst: 0.0, pst: 0.0, hst: 15.0 },
+  { name: "Quebec", code: "QC", gst: 5.0, pst: 9.975, hst: 0.0 },
+  { name: "Saskatchewan", code: "SK", gst: 5.0, pst: 6.0, hst: 0.0 },
+  { name: "Yukon", code: "YT", gst: 5.0, pst: 0.0, hst: 0.0 }
+]
+
+provinces.each do |province|
+  record = Province.find_or_initialize_by(code: province[:code])
+
+  record.name = province[:name]
+  record.gst = province[:gst]
+  record.pst = province[:pst]
+  record.hst = province[:hst]
+
+  record.save!
+end
+
+puts "Seed complete"
+puts "Admin users: #{AdminUser.count}"
+puts "Site pages: #{SitePage.count}"
+puts "Categories: #{Category.count}"
+puts "Products: #{Product.count}"
+puts "Provinces: #{Province.count}"
+
 puts "Seed complete"
 puts "Admin users: #{AdminUser.count}"
 puts "Site pages: #{SitePage.count}"
